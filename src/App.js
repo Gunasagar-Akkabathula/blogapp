@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
@@ -6,7 +6,7 @@ import PostDetail from "./PostDetail";
 
 const Logo = () => (
   <div style={{
-    fontSize: 32,
+    fontSize: "2rem",
     fontWeight: "bold",
     color: "#070707ff",
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -36,34 +36,46 @@ const AppContent = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [allPosts] = useState(posts);
   const [displayedPosts, setDisplayedPosts] = useState(posts);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 600);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const navStyle = {
     display: "flex",
+    flexDirection: isMobile ? "column" : "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: isMobile ? "flex-start" : "center",
     backgroundColor: "#0deeaaff",
-    padding: "18px 30px",
+    padding: isMobile ? "12px 20px" : "18px 30px",
     boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-    color: "#ffffffff"
+    color: "#ffffffff",
+    gap: isMobile ? 12 : 0,
   };
 
   const linkContainerStyle = {
     display: "flex",
+    flexWrap: "wrap",
     gap: 20,
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: isMobile ? 10 : 0,
+    width: isMobile ? "100%" : "auto",
   };
 
   const linkStyle = {
     color: "#0a0909ff",
     textDecoration: "none",
     fontWeight: 600,
-    fontSize: 19,
+    fontSize: isMobile ? 16 : 19,
     padding: "8px 16px",
     borderRadius: 6,
     transition: "background-color 0.3s, color 0.3s",
-    cursor: "pointer"
+    cursor: "pointer",
   };
 
   const homeStyle = {
@@ -71,11 +83,11 @@ const AppContent = () => {
     backgroundColor: "transparent",
     color: "#050606ff",
     fontWeight: 600,
-    fontSize: 19,
+    fontSize: isMobile ? 16 : 19,
     padding: "8px 16px",
     borderRadius: 6,
     textDecoration: "underline",
-    cursor: "pointer"
+    cursor: "pointer",
   };
 
   const linkHoverColor = "#eef606ff";
@@ -111,32 +123,51 @@ const AppContent = () => {
     navigate("/");
   };
 
+  const searchContainerStyle = {
+    display: "flex",
+    flexDirection: isMobile ? "column" : "row",
+    gap: isMobile ? 8 : 0,
+    alignItems: "center",
+    width: isMobile ? "100%" : "auto",
+  };
+
+  const inputStyle = {
+    padding: "6px 12px",
+    borderRadius: 4,
+    border: "none",
+    fontSize: 16,
+    width: isMobile ? "100%" : 200,
+    marginBottom: isMobile ? 8 : 0,
+  };
+
+  const buttonStyle = {
+    padding: "8px 16px",
+    borderRadius: 6,
+    border: "none",
+    backgroundColor: "#fff",
+    color: "#070707ff",
+    fontWeight: "bold",
+    cursor: "pointer",
+    width: isMobile ? "100%" : "auto",
+  };
+
   return (
     <>
       <nav style={navStyle}>
         <Logo />
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <input
-            type="text"
-            placeholder="Search posts"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            style={{ padding: "6px 12px", borderRadius: 4, border: "none", fontSize: 16 }}
-          />
-          <button
-            onClick={handleSearch}
-            style={{
-              padding: "8px 16px",
-              borderRadius: 6,
-              border: "none",
-              backgroundColor: "#fff",
-              color: "#070707ff",
-              fontWeight: "bold",
-              cursor: "pointer"
-            }}
-          >
-            Search
-          </button>
+        <div style={{ display: "flex", flexDirection: "column", width: isMobile ? "100%" : "auto" }}>
+          <div style={searchContainerStyle}>
+            <input
+              type="text"
+              placeholder="Search posts"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              style={inputStyle}
+            />
+            <button onClick={handleSearch} style={buttonStyle}>
+              Search
+            </button>
+          </div>
           <div style={linkContainerStyle}>
             <span onClick={handleHomeClick} style={homeStyle}>Home</span>
             <Link
