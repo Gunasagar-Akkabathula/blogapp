@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Gunasagar-Akkabathula/blogapp.git/static/css/main.e6c13ad2.css",
+    "main.js": "/Gunasagar-Akkabathula/blogapp.git/static/js/main.ad642ba0.js",
+    "index.html": "/Gunasagar-Akkabathula/blogapp.git/index.html",
+    "main.e6c13ad2.css.map": "/Gunasagar-Akkabathula/blogapp.git/static/css/main.e6c13ad2.css.map",
+    "main.ad642ba0.js.map": "/Gunasagar-Akkabathula/blogapp.git/static/js/main.ad642ba0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.ad642ba0.js"
+  ]
+}
