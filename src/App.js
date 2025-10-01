@@ -41,30 +41,65 @@ const AppContent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 600);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const navStyle = {
+    backgroundColor: "#0deeaaff",
+    padding: isMobile ? "12px 0" : "18px 0",
+    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+    color: "#ffffffff",
+    width: "100%",
+  };
+
+  const navInnerStyle = {
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: isMobile ? "0 12px" : "0 30px",
     display: "flex",
     flexDirection: isMobile ? "column" : "row",
     justifyContent: "space-between",
-    alignItems: isMobile ? "flex-start" : "center",
-    backgroundColor: "#0deeaaff",
-    padding: isMobile ? "12px 20px" : "18px 30px",
-    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-    color: "#ffffffff",
-    gap: isMobile ? 12 : 0,
+    alignItems: "center",
+    width: "100%",
   };
 
-  const linkContainerStyle = {
+  const logoContainer = {
+    flex: "0 0 auto",
+  };
+
+  const navLinksContainer = {
     display: "flex",
-    flexWrap: "wrap",
+    flexDirection: isMobile ? "column" : "row",
     gap: 20,
     alignItems: "center",
-    marginTop: isMobile ? 10 : 0,
     width: isMobile ? "100%" : "auto",
+  };
+
+  const inputStyle = {
+    padding: "6px 12px",
+    borderRadius: 4,
+    border: "none",
+    fontSize: 16,
+    width: isMobile ? "100%" : 200,
+    marginBottom: isMobile ? 8 : 0,
+    marginRight: isMobile ? 0 : 8,
+    boxSizing: "border-box",
+  };
+
+  const buttonStyle = {
+    padding: "8px 16px",
+    borderRadius: 6,
+    border: "none",
+    backgroundColor: "#fff",
+    color: "#070707ff",
+    fontWeight: "bold",
+    cursor: "pointer",
+    width: isMobile ? "100%" : "auto",
+    margin: 0,
   };
 
   const linkStyle = {
@@ -74,7 +109,6 @@ const AppContent = () => {
     fontSize: isMobile ? 16 : 19,
     padding: "8px 16px",
     borderRadius: 6,
-    transition: "background-color 0.3s, color 0.3s",
     cursor: "pointer",
   };
 
@@ -83,18 +117,12 @@ const AppContent = () => {
     backgroundColor: "transparent",
     color: "#050606ff",
     fontWeight: 600,
-    fontSize: isMobile ? 16 : 19,
-    padding: "8px 16px",
-    borderRadius: 6,
     textDecoration: "underline",
-    cursor: "pointer",
   };
-
-  const linkHoverColor = "#eef606ff";
 
   const handleMouseEnter = (e) => {
     if (e.target.style.backgroundColor === "rgb(255, 255, 255)") return;
-    e.target.style.color = linkHoverColor;
+    e.target.style.color = "#eef606ff";
   };
 
   const handleMouseLeave = (e) => {
@@ -123,52 +151,23 @@ const AppContent = () => {
     navigate("/");
   };
 
-  const searchContainerStyle = {
-    display: "flex",
-    flexDirection: isMobile ? "column" : "row",
-    gap: isMobile ? 8 : 0,
-    alignItems: "center",
-    width: isMobile ? "100%" : "auto",
-  };
-
-  const inputStyle = {
-    padding: "6px 12px",
-    borderRadius: 4,
-    border: "none",
-    fontSize: 16,
-    width: isMobile ? "100%" : 200,
-    marginBottom: isMobile ? 8 : 0,
-  };
-
-  const buttonStyle = {
-    padding: "8px 16px",
-    borderRadius: 6,
-    border: "none",
-    backgroundColor: "#fff",
-    color: "#070707ff",
-    fontWeight: "bold",
-    cursor: "pointer",
-    width: isMobile ? "100%" : "auto",
-  };
-
   return (
     <>
       <nav style={navStyle}>
-        <Logo />
-        <div style={{ display: "flex", flexDirection: "column", width: isMobile ? "100%" : "auto" }}>
-          <div style={searchContainerStyle}>
-            <input
-              type="text"
-              placeholder="Search posts"
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              style={inputStyle}
-            />
-            <button onClick={handleSearch} style={buttonStyle}>
-              Search
-            </button>
-          </div>
-          <div style={linkContainerStyle}>
+        <div style={navInnerStyle}>
+          <div style={logoContainer}><Logo /></div>
+
+          <div style={navLinksContainer}>
+            <div style={{ width: isMobile ? "100%" : "auto", marginBottom: isMobile ? 8 : 0 }}>
+              <input
+                type="text"
+                placeholder="Search posts"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                style={inputStyle}
+              />
+              <button onClick={handleSearch} style={buttonStyle}>Search</button>
+            </div>
             <span onClick={handleHomeClick} style={homeStyle}>Home</span>
             <Link
               to="/about"
@@ -181,6 +180,7 @@ const AppContent = () => {
           </div>
         </div>
       </nav>
+
       <div style={{ padding: 20 }}>
         <Routes>
           <Route path="/" element={<Home posts={displayedPosts} />} />
