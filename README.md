@@ -6,8 +6,6 @@ Explore a list of posts, search articles by title, and navigate to individual po
 ## 🚀 Live Demo  
 👉 [View Live Project](https://gunasagar-akkabathula.github.io/blogapp/)
 
-## 📸 Preview  
-[](https://github.com/Gunasagar-Akkabathula/blogapp#-preview)  
 - 🏠 Home page showing posts with images and titles  
 - 🔍 Search posts by typing keywords  
 - 📖 Read detailed articles on the Post Detail page  
